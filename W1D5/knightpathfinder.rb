@@ -22,7 +22,7 @@ class KnightPathFinder
             [-1, 2]
         ]
         deltas.each do |dx, dy|
-            valids << [x+dx, y+dy] if (x+dx).between?(0,8) && (y+dy).between?(0,8)
+            valids << [x+dx, y+dy] if (x+dx).between?(0,7) && (y+dy).between?(0,7)
         end
         valids
     end
