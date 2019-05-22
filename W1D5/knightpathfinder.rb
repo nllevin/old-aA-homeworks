@@ -47,4 +47,20 @@ class KnightPathFinder
         end
         tree
     end
+
+    def find_path(end_pos)
+        end_node = @move_tree.select { |node| node.value == end_pos }.first
+        self.trace_path_back(end_node)
+    end
+
+    def trace_path_back(end_node)
+        path = []
+        current_node = end_node
+        until current_node == @root_node
+            path << current_node.value
+            current_node = current_node.parent
+        end
+        path << current_node.value
+        path.reverse
+    end
 end
