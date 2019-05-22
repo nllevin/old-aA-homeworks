@@ -39,11 +39,7 @@ class TicTacToeNode
   # the current move.
   def children
     children = []
-    if next_mover_mark == :x
-      next_next_mover_mark = :o
-    else
-      next_next_mover_mark = :x
-    end
+    next_next_mover_mark = [:x, :o].reject { |mark| mark == next_mover_mark }.first
 
     @board.rows.each_with_index do |row, row_idx|
       row.each_with_index do |square, col_idx|
