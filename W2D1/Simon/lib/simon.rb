@@ -62,6 +62,7 @@ class Simon
 
   def round_success_message
     puts "Great job, you passed that round!"
+    sleep(0.8)
   end
 
   def game_over_message
