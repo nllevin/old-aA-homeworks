@@ -27,3 +27,18 @@ class Array
         transposed
     end
 end
+
+def stock_picker(stock_prices)
+    best_buy_day, best_sell_day, best_profit = 0, 0, 0
+    (0...stock_prices.length - 1).each do |buy_day|
+        (buy_day + 1...stock_prices.length).each do |sell_day|
+            profit = stock_prices[sell_day] - stock_prices[buy_day]
+
+            if profit > best_profit
+                best_buy_day, best_sell_day, best_profit =
+                    buy_day, sell_day, profit
+            end
+        end
+    end
+    [best_buy_day, best_sell_day]
+end

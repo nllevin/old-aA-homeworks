@@ -69,3 +69,19 @@ describe '#two_sum' do
         end
     end
 end
+
+describe '#stock_picker' do
+    let(:stock_prices) { [100, 75, 125, 250, 200, 300, 10] }
+
+    context 'when stock only drops' do
+        it 'returns [0,0]' do
+            expect(stock_picker([10, 9, 8, 7, 6])).to eq([0,0])
+        end
+    end
+    
+    context 'when stock goes up and down' do
+        it 'returns most profitable pair of days to buy/sell' do
+            expect(stock_picker(stock_prices)).to eq([1, 5])
+        end
+    end
+end
