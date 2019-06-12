@@ -47,4 +47,25 @@ describe '#two_sum' do
         end
     end
 
+    describe '#my_transpose' do
+        context 'when given an empty array' do
+            it 'returns an empty array' do
+                expect([].my_transpose).to be_empty
+            end
+        end
+
+        context 'when given an array of matrix rows' do
+            let(:arr) { [[0, 1, 2], [3, 4, 5], [6, 7, 8]] }
+            let(:transposed) { arr.my_transpose }
+
+            it 'returns a new array' do
+                expect(transposed).to be_a(Array)
+                expect(transposed).not_to be(arr)
+            end
+
+            it 'exchanges rows and columns' do
+                expect(transposed).to eq([[0, 3, 6], [1, 4, 7], [2, 5, 8]])
+            end
+        end
+    end
 end

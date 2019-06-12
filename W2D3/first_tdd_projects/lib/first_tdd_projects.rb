@@ -16,4 +16,14 @@ class Array
         end
         zero_sums
     end
+
+    def my_transpose
+        transposed = Array.new(self.length) { Array.new(self.length) }
+        self.each_with_index do |row, row_idx|
+            row.each_with_index do |el, col_idx|
+                transposed[col_idx][row_idx] = el
+            end
+        end
+        transposed
+    end
 end
