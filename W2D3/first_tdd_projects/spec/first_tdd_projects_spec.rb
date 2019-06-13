@@ -85,3 +85,96 @@ describe '#stock_picker' do
         end
     end
 end
+
+describe TowersOfHanoi do
+    let(:game) { TowersOfHanoi.new(8) }
+
+    describe '#initialize' do
+        it 'starts with all disks on the left stack' do
+            expect(game.stacks[0]).to eq([8, 7, 6, 5, 4, 3, 2, 1])
+            expect(game.stacks[1]).to eq([])
+            expect(game.stacks[2]).to eq([])
+        end
+    end
+
+    describe '#move' do
+        context 'when user inputs invalid start or end stack' do
+            it 'raises the appropriate error' do
+                expect { game.move("blue", "r") }.to raise_error("Please enter valid stacks (l/c/r).")
+                expect { game.move("1", "2") }.to raise_error("Please enter valid stacks (l/c/r).")
+                expect { game.move("l", "red") }.to raise_error("Please enter valid stacks (l/c/r).")
+            end
+        end
+
+        context 'when start stack is empty' do
+            it 'raises the appropriate error' do
+                expect { game.move("c", "r") }.to raise_error("Start stack has no disks to move.")
+                expect { game.move("r", "l") }.to raise_error("Start stack has no disks to move.")
+            end
+        end
+
+        context 'when start and end stacks are the same' do
+            it 'raises the appropriate error' do
+                expect { game.move("l", "l") }.to raise_error("You must move to a different stack.")
+            end
+        end
+
+        context 'when user moves larger disk onto smaller' do
+            it 'raises the appropriate error' do
+                game.stacks[0], game.stacks[1] = [8, 7, 6, 5, 4, 3, 2], [1]
+
+                expect { game.move("l", "c") }.to raise_error("You cannot move a larger disk onto a smaller disk.")
+            end
+        end
+
+        context 'when user moves disk onto empty stack' do
+            before(:each) do 
+                game.move("l", "c")
+                game.move("l", "r")
+            end
+
+            it 'removes the top disk from start stack' do
+                expect(game.stacks[0]).to eq([8, 7, 6, 5, 4, 3])
+            end
+
+            it 'places that disk on the empty stack' do
+                expect(game.stacks[1]).to eq([1])
+                expect(game.stacks[2]).to eq([2])
+            end
+        end
+
+        context 'when user moves smaller disk onto larger disk' do
+            before(:each) do
+                game.stacks[0], game.stacks[1], game.stacks[2] =
+                    [8, 7, 6, 5, 4, 3], [2, 1], []
+                game.move("c", "l")
+            end
+
+            it 'removes the top disk from start stack' do
+                expect(game.stacks[1]).to eq([2]) 
+            end
+
+            it 'places that disk on the smaller disk' do
+                expect(game.stacks[0]).to eq([8, 7, 6, 5, 4, 3, 1])
+            end
+        end
+    end
+
+    describe '#won?' do
+        context 'when disks remain on left/center stacks' do
+            it 'returns false' do
+                expect(game.won?).to be false
+
+                game.stacks[0], game.stacks[1] = game.stacks[1], game.stacks[0]
+                expect(game.won?).to be false
+            end
+        end
+
+        context 'when all disks are on the right stack' do
+            it 'returns true' do
+                game.stacks[0], game.stacks[2] = game.stacks[2], game.stacks[0]
+                expect(game.won?).to be true
+            end
+        end
+    end
+end
